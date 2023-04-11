@@ -1,0 +1,6 @@
+\b(?:love|war|peace)\b
+(?i)\b(?:king|queen|prince|duke)\b
+\b[a-zA-Z]+\'[a-zA-Z]+\b
+(?i)\b(?:thou|thee|thy|thine)\b
+(?<=\b[a-zA-Z]{3})\p{P}(?=\b)
+(?i)\b(?:Macbeth|Hamlet|Othello)\b

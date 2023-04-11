@@ -423,6 +423,20 @@ lazy val twitterFinagleBenchmarks = (project in file("benchmarks/twitter-finagle
   )
   .dependsOn(renaissanceCore % "provided")
 
+lazy val regexMatchingBenchmarks = (project in file("benchmarks/scala-regex"))
+  .settings(
+    name := "scala-regex",
+    scalaVersion := scalaVersion213
+  )
+  .dependsOn(renaissanceCore % "provided")
+
+lazy val graphTraversalBenchmarks = (project in file("benchmarks/graph-traversal"))
+  .settings(
+    name := "graph-traversal",
+    scalaVersion := scalaVersion213
+  )
+  .dependsOn(renaissanceCore % "provided")
+
 //
 // Project collections.
 //
@@ -446,7 +460,9 @@ val renaissanceBenchmarks: Seq[Project] = Seq(
   scalaSatBenchmarks,
   scalaStdlibBenchmarks,
   scalaStmBenchmarks,
-  twitterFinagleBenchmarks
+  twitterFinagleBenchmarks,
+  regexMatchingBenchmarks,
+  graphTraversalBenchmarks
 )
 
 /**

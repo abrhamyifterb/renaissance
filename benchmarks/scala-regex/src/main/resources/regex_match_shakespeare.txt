@@ -1,0 +1,20 @@
+\b(?:love|hate|peace|war|joy|sorrow|ambition|despair|fury|serenity)\b(?:\w{0,5}\b)?
+(?i)\b(?:king|queen|prince|duke|duchess|emperor|empress|lord|lady|knight|squire|baron|count|countess)\b(?:\w{0,5}\b)?
+\b[a-zA-Z]{3,7}(?:ing|ed|ifying|able|ible|less|ness|ment|tion|sion|ence|ance|ous|ate|ify|ize)?\b
+\b[a-zA-Z]+'[a-zA-Z]+(?:ed|ing|s|ly|ment|tion)?\b
+(?i)\b(?:thou|thee|thy|thine|you|yours|ye|yourselves|your|yourselves|we|us|our|ours)\b
+(?<=\b[a-zA-Z]{2,5})\p{P}(?=[a-zA-Z]{2,5}\b)
+\b[a-zA-Z]{6,}\b(?:ing|ed|ness|ity|ment|tion|sion|ance|ence|ible|able)?
+(?i)\b(?:Macbeth|Hamlet|Othello|Antony|Cleopatra|Julius Caesar|King Lear|Richard III|Henry V)\b
+(?i)\b(?:Romeo|Juliet|Mercutio|Tybalt|Benvolio|Nurse|Friar Laurence|Paris|Escalus)\b
+(?i)\b(?:act|scene|part|chapter|volume|book)\s+\w+(?:\s+\w+)?\b
+\b(?:father|mother|sister|brother|son|daughter|uncle|aunt|cousin|nephew|niece|grand(?:father|mother|son|daughter))\b
+(?i)\b(?:heaven|hell|earth|sky|ocean|mountain|valley|forest|desert|river)\b
+\b(?:truth|lie|honor|treason|justice|mercy|loyalty|betrayal|courage|cowardice)\b
+(?i)\b(?:friend|foe|ally|enemy|companion|rival|partner|adversary|acquaintance)\b
+(?i)\b(?:wisdom|knowledge|ignorance|foolishness|cunning|wit|intelligence|insight)\b
+\b(?:happy|sad|angry|joyful|melancholy|ecstatic|devastated|frustrated|confused)\b
+\b[a-zA-Z]{3,7}\b
+(?i)\b(?:marriage|wedding|divorce|betrothal|proposal|engagement|union|separation)\b
+\b(?:[A-Z][a-z])\b(?:\s+[A-Z][a-z])*
+(?i)\b(?:brave|valiant|wise|noble|faithful|honorable|cunning|witty)\b[ ]+(?:Macbeth|Hamlet)\b
