@@ -1,5 +1,7 @@
 package org.renaissance.graph
 
+import scala.util.Random
+
 import org.renaissance.Benchmark
 import org.renaissance.Benchmark._
 import org.renaissance.BenchmarkContext
@@ -22,12 +24,14 @@ final class GraphTraversal extends Benchmark {
   private var initialConnections: Int = _
   private var graph: Map[Int, List[Int]] = _
 
+  private val randomSeed = 42
+  private val random = new Random(randomSeed)
+  
   override def setUpBeforeAll(c: BenchmarkContext): Unit = {
     graphSize = c.parameter("graph_size").toPositiveInteger
     initialConnections = c.parameter("initial_connections").toPositiveInteger
     graph = generateGraph(graphSize, initialConnections)
   }
-
 
 private def generateGraph(size: Int, initialConnections: Int): Map[Int, List[Int]] = {
     val graph = mutable.Map[Int, List[Int]]().withDefaultValue(List.empty[Int])
@@ -43,7 +47,7 @@ private def generateGraph(size: Int, initialConnections: Int): Map[Int, List[Int
 
       val selectedNodes = mutable.Set.empty[Int]
       while (selectedNodes.size < initialConnections) {
-        val randomValue = scala.util.Random.nextDouble()
+        val randomValue = random.nextDouble()
         var accumulatedProbability = 0.0
 
         for ((node, probability) <- edgeProbabilities) {
@@ -64,7 +68,7 @@ private def generateGraph(size: Int, initialConnections: Int): Map[Int, List[Int
   }
 
 
-  private def bfs(graph: Map[Int, List[Int]], startNode: Int): List[Int] = {
+private def bfs(graph: Map[Int, List[Int]], startNode: Int): List[Int] = {
     val visited = Array.fill(graphSize)(false)
     val queue = mutable.Queue(startNode)
 
