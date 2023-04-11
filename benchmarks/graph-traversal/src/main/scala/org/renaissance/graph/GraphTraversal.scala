@@ -10,30 +10,59 @@ import scala.collection.mutable
 
 @Name("graph-traversal")
 @Group("graph")
-@Summary("Performs multiple graph traversal algorithms on an Erdős–Rényi generated graph.")
+@Summary("Performs multiple graph traversal algorithms on a Barabási–Albert generated graph.")
 @Licenses(Array(License.APACHE2))
 @Repetitions(50)
 @Parameter(name = "graph_size", defaultValue = "1500")
-@Parameter(name = "edge_probability", defaultValue = "0.5")
-@Configuration(name = "test", settings = Array("graph_size = 1000", "edge_probability = 0.5"))
+@Parameter(name = "initial_connections", defaultValue = "2")
+@Configuration(name = "test", settings = Array("graph_size = 1000", "initial_connections = 2"))
 @Configuration(name = "jmh")
 final class GraphTraversal extends Benchmark {
   private var graphSize: Int = _
-  private var edgeProbability: Double = _
+  private var initialConnections: Int = _
   private var graph: Map[Int, List[Int]] = _
 
   override def setUpBeforeAll(c: BenchmarkContext): Unit = {
     graphSize = c.parameter("graph_size").toPositiveInteger
-    edgeProbability = c.parameter("edge_probability").toDouble
-    graph = generateGraph(graphSize, edgeProbability)
+    initialConnections = c.parameter("initial_connections").toPositiveInteger
+    graph = generateGraph(graphSize, initialConnections)
   }
 
-  private def generateGraph(size: Int, edgeProbability: Double): Map[Int, List[Int]] = {
-    (0 until size).map { node =>
-      val neighbors = (0 until size).filter(_ != node).filter(_ => scala.util.Random.nextDouble() <= edgeProbability).toList
-      (node, neighbors)
-    }.toMap
+
+private def generateGraph(size: Int, initialConnections: Int): Map[Int, List[Int]] = {
+    val graph = mutable.Map[Int, List[Int]]().withDefaultValue(List.empty[Int])
+    
+    graph(0) = List(1)
+    graph(1) = List(0)
+
+    for (newNode <- 2 until size) {
+      val degreeSum = graph.values.flatten.size
+      val edgeProbabilities = graph.map { case (node, neighbors) =>
+        (node, neighbors.size.toDouble / degreeSum)
+      }.toSeq
+
+      val selectedNodes = mutable.Set.empty[Int]
+      while (selectedNodes.size < initialConnections) {
+        val randomValue = scala.util.Random.nextDouble()
+        var accumulatedProbability = 0.0
+
+        for ((node, probability) <- edgeProbabilities) {
+          accumulatedProbability += probability
+          if (randomValue <= accumulatedProbability && selectedNodes.size < initialConnections) {
+            selectedNodes.add(node)
+          }
+        }
+      }
+
+      graph(newNode) = selectedNodes.toList
+      selectedNodes.foreach { node =>
+        graph(node) = newNode :: graph(node)
+      }
+    }
+
+    graph.toMap
   }
+
 
   private def bfs(graph: Map[Int, List[Int]], startNode: Int): List[Int] = {
     val visited = Array.fill(graphSize)(false)
